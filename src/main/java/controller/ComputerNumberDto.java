@@ -11,7 +11,7 @@ public class ComputerNumberDto {
     }
 
     // setter
-    private void setComputerList(List<Integer> computerList) {
+    public void setComputerList(List<Integer> computerList) {
         this.computerList = computerList;
     }
 }
