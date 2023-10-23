@@ -1,4 +1,6 @@
 package domain;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +19,14 @@ public class CompareNumber {
         result.add(2, 0); // Reset nothing
 
         for (int i = 0; i < user.size(); i++) {
-            if (user.get(i) == computer.get(i)) {
-                strike++;
-            }
-            if (user.contains(i)) {
-                BallOrStrike(i, user, computer);
+//            if (user.get(i) == computer.get(i)) {
+//                strike++;
+//            }
+            if (user.contains(computer.get(i))) {
+                BallOrStrike(computer.get(i), user, computer);
             }
             else {
-                result.set(2, nothing++);
+                result.set(2, ++nothing);
             }
         }
 
@@ -37,9 +39,16 @@ public class CompareNumber {
         int userIndex = user.indexOf(number);
 
         if (computerIndex == userIndex) {
-            result.set(0, strike++);
+            result.set(1, ++strike);
         } else {
-            result.set(1, ball++);
+            result.set(0, ++ball);
         }
+    }
+
+    public  void ClearResultList() {
+        result.clear();
+        strike = 0;
+        ball = 0;
+        nothing = 0;
     }
 }

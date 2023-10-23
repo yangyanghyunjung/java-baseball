@@ -6,7 +6,7 @@ import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
     private static final String GAME_START_MESSAGE ="숫자 야구 게임을 시작합니다.";
-    private static final String INPUT_NUMBER= "숫자를 입력해주세요: ";
+    private static final String INPUT_NUMBER= "숫자를 입력해주세요:";
     List<Integer> userInputNumberList = new ArrayList<>();
 
     public void StartGameMessage() {
@@ -20,12 +20,14 @@ public class InputView {
     // return type: List<Integer>
     public List<Integer> InputUserNumber() {
         while (userInputNumberList.size() < 3) { // 사용자 서로 다른 3숫자 입력
-            System.out.println(INPUT_NUMBER);
-            String inputs = ValidateInputNumber(Console.readLine());
+            System.out.print(INPUT_NUMBER);
+            String inputs = ValidateInputNumber(Console.readLine()); // 두번째 부터 error
             for (int i = 0; i < inputs.length(); i++) {
                 char input = inputs.charAt(i);
                 if (!userInputNumberList.contains(input - '0')) { //List에 한자리씩 추가
                     userInputNumberList.add(Integer.valueOf(input - '0'));
+                } else if (userInputNumberList.contains(input - '0')) { // 메소드 따로 뺴고 싶음
+                    throw new IllegalArgumentException("서로 다른 3자리 값을 입력해야 합니다.");
                 }
             }
         }
@@ -41,7 +43,7 @@ public class InputView {
         try { // int로 변경 불가인 경우
             Integer.parseInt(inputs);
         } catch (IllegalArgumentException e){
-            throw e;
+            throw new IllegalArgumentException ("sd");
         }
         return inputs;
     }
@@ -50,7 +52,7 @@ public class InputView {
     // return type: boolean
     public boolean ProgramReStartOrExit() {
         try { // 문자 입력 방지
-            int input = Integer.parseInt(Console.readLine());
+            Integer input = Integer.parseInt(Console.readLine()); // int > Integer
             if (input == 1) {
                 return true;
             } else if (input == 2) {
@@ -60,5 +62,10 @@ public class InputView {
             throw e;
         }
         return false;
+    }
+
+    // List 초기화
+    public void ClearList () {
+        userInputNumberList.clear();
     }
 }
