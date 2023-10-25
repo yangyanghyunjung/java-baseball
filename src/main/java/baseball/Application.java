@@ -1,11 +1,14 @@
 package baseball;
-import controller.Controller;
+
+import domain.RandomNumber;
+import view.InputView;
+import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.Controll();
-
-        // TODO: 프로그램 구현
+//        Controller controller = new Controller();
+//        controller.Controll();
+        BaseballGame baseballGame = new BaseballGame(new InputView(), new OutputView(), new RandomNumber());
+        baseballGame.start();
     }
 }

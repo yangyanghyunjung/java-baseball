@@ -1,54 +1,51 @@
 package domain;
-import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class CompareNumber {
-    private int nothing = 0;
-    private int strike = 0;
-    private int ball = 0;
+    //    private int nothing = 0;
+//    private int strike = 0;
+//    private int ball = 0;
+    private BallStrikeNothing ballStrikeNothing;
 
-    List<Integer> result = new ArrayList<>(3);
+    List<Integer> user;
+    List<Integer> computer;
+
+    public CompareNumber(List<Integer> user, List<Integer> computer) {
+        this.user = user;
+        this.computer = computer;
+    }
+
+//    List<Integer> result = new ArrayList<>(3);
 
     // computer vs user 비교
-    // parameter: com의 List<>, user의 List<>
-    public List<Integer> CompareComputerAndUser(List<Integer> user, List<Integer> computer) {
-        result.add(0, 0); // Reset ball
-        result.add(1, 0); // Reset strike
-        result.add(2, 0); // Reset nothing
+    // parameter: none
+    public void CompareComputerAndUser() {
 
-        for (int i = 0; i < user.size(); i++) {
-//            if (user.get(i) == computer.get(i)) {
-//                strike++;
-//            }
-            if (user.contains(computer.get(i))) {
-                BallOrStrike(computer.get(i), user, computer);
-            }
-            else {
-                result.set(2, ++nothing);
-            }
-        }
+        ballStrikeNothing.strike = StrikeCount();
+        ballStrikeNothing.ball = BallCount();
+        ballStrikeNothing.nothing = NothingCount();
 
-        return result;
+        List<Integer> result = List.of(ballStrikeNothing.ball, ballStrikeNothing.strike, ballStrikeNothing.nothing);
     }
 
-    // 포함 되어있을 경우 위치값 일치하는지 확인하는 함수
-    public void BallOrStrike(int number, List<Integer> user, List<Integer> computer) {
-        int computerIndex = computer.indexOf(number);
-        int userIndex = user.indexOf(number);
-
-        if (computerIndex == userIndex) {
-            result.set(1, ++strike);
-        } else {
-            result.set(0, ++ball);
-        }
+    // strike
+    public int StrikeCount() {
+        return (int) IntStream.range(0, user.size())
+                .filter(i -> computer.get(i).equals(user.get(i)))
+                .count();
     }
 
-    public  void ClearResultList() {
-        result.clear();
-        strike = 0;
-        ball = 0;
-        nothing = 0;
+    // ball
+    public int BallCount() {
+        return (int) IntStream.range(0, user.size())
+                .filter(i -> computer.contains(user.get(i)))
+                .count() - ballStrikeNothing.strike; // 중복 방지
+    }
+
+    // nothing
+    public int NothingCount() {
+        return 3 - ballStrikeNothing.strike - ballStrikeNothing.ball;
     }
 }
